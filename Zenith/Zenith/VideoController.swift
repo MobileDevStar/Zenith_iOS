@@ -18,6 +18,9 @@ class VideoController: UIViewController {
     
     private var isTitle: Bool!
     private var isFirst: Bool!
+    
+    private var stopPos: CMTime!
+    
     // private var tutorialVideoPlayer:AVPlayer!
     
     override func viewDidLoad() {
@@ -26,6 +29,7 @@ class VideoController: UIViewController {
         isTitle = true
         isFirst = false
         m_butLogin.isHidden = true
+        stopPos = CMTime(seconds: 0, preferredTimescale: 1)
         
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
         swipeRight.direction = UISwipeGestureRecognizer.Direction.right
@@ -41,6 +45,15 @@ class VideoController: UIViewController {
         playStartVideo()
     }
     
+//    override func viewWillDisappear(_ animated: Bool) {
+//        super.viewWillDisappear(animated)
+//    }
+//
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//
+//    }
+//
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         if UIDevice.current.orientation.isLandscape {
@@ -49,8 +62,10 @@ class VideoController: UIViewController {
             print("Portrait")
         }
         
+        print(size)
         print(self.view.bounds)
-        playerLayer.frame = CGRect(x: 0, y: 0, width: self.view.bounds.height, height: self.view.bounds.width)
+        //playerLayer.frame = self.view.bounds
+        playerLayer.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
 
     }
     
@@ -62,9 +77,23 @@ class VideoController: UIViewController {
         }
     }
     
+    public func pausePlayer() {
+        if player != nil {
+            stopPos = player.currentTime();
+            player.pause()
+        }
+    }
+    
+    public func resumePlayer() {
+        if player != nil {
+            player.seek(to: stopPos)
+            player.play()
+        }
+    }
+    
     private func playStartVideo() {
-        guard let path = Bundle.main.path(forResource: "title", ofType:"mov") else {
-            debugPrint("title.mov not found")
+        guard let path = Bundle.main.path(forResource: "title_login_480_sound", ofType:"mp4") else {
+            debugPrint("title_login_480_sound.mp4 not found")
             return
         }
         
@@ -78,7 +107,7 @@ class VideoController: UIViewController {
         
         playerLayer = AVPlayerLayer(player: player)
         playerLayer.frame = self.view.bounds
-        
+        print(self.view.bounds)
         self.view.layer.addSublayer(playerLayer)
         player.play()
     }
@@ -86,8 +115,8 @@ class VideoController: UIViewController {
     private func playFirstVideo() {
         isFirst = true
         
-        guard let path = Bundle.main.path(forResource: "first", ofType:"mov") else {
-            debugPrint("first.mov not found")
+        guard let path = Bundle.main.path(forResource: "after_login_video_to_twitter_prize_480_sound", ofType:"mp4") else {
+            debugPrint("after_login_video_to_twitter_prize_480_sound.mp4 not found")
             return
         }
         
