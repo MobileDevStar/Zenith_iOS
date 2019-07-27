@@ -18,8 +18,11 @@ class VideoController: UIViewController {
     
     private var stopPos: CMTime!
     private var m_videoList: [VideoInfo] = []
+    private var m_videoIndex: Int = -1
+    private var m_curVideoInfo: VideoInfo? = nil
     
-    public var  m_contribute: String! = "5"
+    public var  m_contribute: String! = "50"
+    
     
     // private var tutorialVideoPlayer:AVPlayer!
     
@@ -28,6 +31,7 @@ class VideoController: UIViewController {
         // Do any additional setup after loading the view.
         isFirst = true
         stopPos = CMTime(seconds: 0, preferredTimescale: 1)
+        //m_curVideoInfo = nil
         
         print(m_contribute ?? "5")
         initVideoList()
@@ -61,17 +65,29 @@ class VideoController: UIViewController {
 
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     public func pausePlayer() {
         if player != nil {
-            stopPos = player.currentTime();
-            player.pause()
+            if isFirst {
+                stopPos = player.currentTime();
+                player.pause()
+            } else {
+                player.pause()
+            }
         }
     }
     
     public func resumePlayer() {
         if player != nil {
-            player.seek(to: stopPos)
-            player.play()
+            if isFirst {
+                player.seek(to: stopPos)
+                player.play()
+            } else {
+                playLoopVideo()
+            }
         }
     }
     
@@ -98,9 +114,24 @@ class VideoController: UIViewController {
     @objc private func completedVideoPlay(note: Notification) {
         // Your code here
         print("Title completed")
-        if isFirst {
-            player.seek(to: CMTime(seconds: 0, preferredTimescale: 1))
-            player.play()
+        if isFirst == true && m_videoIndex == -1 {
+            startMainVideo()
+        } else {
+            if m_curVideoInfo!.state == LOOP_STATE {
+                player.seek(to: CMTime(seconds: 0, preferredTimescale: 1))
+                player.play()
+            } else if m_curVideoInfo!.state == LEFT_STATE {
+                startLeftLink()
+            } else if m_curVideoInfo!.state == RIGHT_STATE {
+                startRightLink()
+            } else if m_curVideoInfo!.state == SWIPE_STATE {
+                m_videoIndex += 1
+                if m_videoIndex >= m_videoList.count {
+                    m_videoIndex = 0
+                }
+                
+                playLoopVideo()
+            }
         }
     }
     
@@ -113,21 +144,31 @@ class VideoController: UIViewController {
         print(playerLayer.bounds)
         print(playerLayer.frame)
         
-        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
-            switch swipeGesture.direction {
-            case UISwipeGestureRecognizer.Direction.right:
-                print("Swiped right")
-            case UISwipeGestureRecognizer.Direction.down:
-                print("Swiped down")
-            case UISwipeGestureRecognizer.Direction.left:
-                print("Swiped left")
-            case UISwipeGestureRecognizer.Direction.up:
-                print("Swiped up")
-            case UISwipeGestureRecognizer.Direction.init(rawValue: 200):
-                print("Swiped Custom")
-                
-            default:
-                break
+        if m_curVideoInfo == nil {
+            return
+        }
+        
+        if m_curVideoInfo!.state == LOOP_STATE {
+            if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+                switch swipeGesture.direction {
+                case UISwipeGestureRecognizer.Direction.right:
+                    if point.x < playerLayer.frame.width / 2 {
+                        playSwipeVideo()
+                    }
+                    print("Swiped right")
+                case UISwipeGestureRecognizer.Direction.left:
+                    if point.x < playerLayer.frame.width / 2 {
+                        m_videoIndex -= 1
+                        if m_videoIndex < 0 {
+                            m_videoIndex = m_videoList.count - 1
+                        }
+                        playLoopVideo()
+                    }
+                    print("Swiped left")
+                    
+                default:
+                    break
+                }
             }
         }
     }
@@ -142,6 +183,201 @@ class VideoController: UIViewController {
         print(playerLayer.frame)
         
         print("Tap gestured")
+        
+        if isFirst == true && m_videoIndex == -1 {
+            startMainVideo()
+        } else {
+            if m_curVideoInfo != nil {
+                if m_curVideoInfo!.state == LOOP_STATE {
+                    if point.x < playerLayer.frame.width / 2 {
+                        playLeftVideo()
+                    } else {
+                        playRightVideo()
+                    }
+                } else if m_curVideoInfo!.state == SWIPE_STATE {
+                    let prevIndex = m_videoIndex
+                    let prevVideoInfo = m_curVideoInfo
+                    
+                    m_videoIndex += 1
+                    
+                    if m_videoIndex >= m_videoList.count {
+                        m_videoIndex = 0
+                    }
+                    
+                    m_curVideoInfo = m_videoList[m_videoIndex]
+                    
+                    if point.x < playerLayer.frame.width / 2 {
+                        if m_curVideoInfo!.locked == true || m_curVideoInfo!.leftLink == nil {
+                            m_videoIndex = prevIndex
+                            m_curVideoInfo = prevVideoInfo
+                        } else {
+                            playLeftVideo()
+                        }
+                    } else {
+                        playRightVideo()
+                    }
+                }
+
+            }
+        }
+    }
+    
+    private func startMainVideo() {
+        isFirst = false
+        m_videoIndex = 0
+        
+        playLoopVideo();
+    }
+    
+    private func playLoopVideo() {
+        if (m_videoIndex >= m_videoList.count || m_videoIndex < 0) {
+            return
+        }
+        
+        m_curVideoInfo = m_videoList[m_videoIndex]
+        if m_curVideoInfo == nil {
+            return
+        }
+        
+        m_curVideoInfo!.state = LOOP_STATE
+        
+        replacePlayItem(res_id: m_curVideoInfo!.loopVideo)
+    }
+    
+    private func playLeftVideo() {
+        if m_curVideoInfo == nil {
+            return
+        }
+        if m_curVideoInfo!.locked == true || m_curVideoInfo!.leftLink == nil {
+            return
+        }
+        
+        m_curVideoInfo!.state = LEFT_STATE
+        
+        replacePlayItem(res_id: m_curVideoInfo!.leftLink!.video)
+    }
+    
+    private func playRightVideo() {
+        if m_curVideoInfo == nil {
+            return
+        }
+        
+        m_curVideoInfo!.state = RIGHT_STATE
+        
+        replacePlayItem(res_id: m_curVideoInfo!.rightLink.video)
+    }
+    
+    private func playSwipeVideo() {
+        if m_curVideoInfo == nil {
+            return
+        }
+        
+        m_curVideoInfo!.state = SWIPE_STATE
+        
+        replacePlayItem(res_id: m_curVideoInfo!.swipeVideo)
+    }
+    
+    private func replacePlayItem(res_id: String) {
+        guard let path = Bundle.main.path(forResource: res_id, ofType:"mp4") else {
+            debugPrint(m_curVideoInfo!.loopVideo + ".mp4 not found")
+            return
+        }
+        
+        let videoURL = URL(fileURLWithPath: path)
+        let item = AVPlayerItem(url: videoURL)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(VideoController.completedVideoPlay(note:)),name:NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: item)
+        
+        player.replaceCurrentItem(with: item)
+        player.play()
+    }
+    
+    private func startLeftLink() {
+        if m_curVideoInfo == nil {
+            return
+        }
+        
+        if m_curVideoInfo!.leftLink == nil {
+            return
+        }
+        
+        if m_curVideoInfo!.leftLink!.name.caseInsensitiveCompare("twitter") == .orderedSame {
+            let screenName =  m_curVideoInfo!.leftLink!.link
+            let appURL = NSURL(string: "twitter://user?screen_name=\(screenName)")!
+            let webURL = NSURL(string: "https://twitter.com/\(screenName)")!
+            
+            if UIApplication.shared.canOpenURL(appURL as URL) {
+                if #available(iOS 10.0, *) {
+                    UIApplication.shared.open(appURL as URL, options: [:], completionHandler: nil)
+                } else {
+                    UIApplication.shared.openURL(appURL as URL)
+                }
+            } else {
+                //redirect to safari because the user doesn't have Instagram
+                if #available(iOS 10.0, *) {
+                    UIApplication.shared.open(webURL as URL, options: [:], completionHandler: nil)
+                } else {
+                    UIApplication.shared.openURL(webURL as URL)
+                }
+            }
+        } else if m_curVideoInfo!.leftLink!.name.caseInsensitiveCompare("snapchat") == .orderedSame {
+            let screenName =  m_curVideoInfo!.leftLink!.link
+            let webURL = NSURL(string: "https://www.snapchat.com/add/\(screenName)")!
+            
+            if UIApplication.shared.canOpenURL(webURL as URL) {
+                if #available(iOS 10.0, *) {
+                    UIApplication.shared.open(webURL as URL, options: [:], completionHandler: nil)
+                } else {
+                    UIApplication.shared.openURL(webURL as URL)
+                }
+            }
+        } else if m_curVideoInfo!.leftLink!.name.caseInsensitiveCompare("instagram") == .orderedSame {
+            let screenName =  m_curVideoInfo!.leftLink!.link
+            let appURL = NSURL(string: "instagram://user?username=\(screenName)")!
+            let webURL = NSURL(string: "https://instagram.com/\(screenName)")!
+            
+            if UIApplication.shared.canOpenURL(appURL as URL) {
+                if #available(iOS 10.0, *) {
+                    UIApplication.shared.open(appURL as URL, options: [:], completionHandler: nil)
+                } else {
+                    UIApplication.shared.openURL(appURL as URL)
+                }
+            } else {
+                //redirect to safari because the user doesn't have Instagram
+                if #available(iOS 10.0, *) {
+                    UIApplication.shared.open(webURL as URL, options: [:], completionHandler: nil)
+                } else {
+                    UIApplication.shared.openURL(webURL as URL)
+                }
+            }
+        } else {
+            guard let url = URL(string: m_curVideoInfo!.leftLink!.link) else {
+                return //be safe
+            }
+            
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            } else {
+                UIApplication.shared.openURL(url)
+            }
+        }
+
+    }
+    
+    private func startRightLink() {
+        if m_curVideoInfo == nil {
+            return
+        }
+        
+        guard let url = URL(string: m_curVideoInfo!.rightLink.link) else {
+            return //be safe
+        }
+        
+        if #available(iOS 10.0, *) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        } else {
+            UIApplication.shared.openURL(url)
+        }
     }
     
     private func initVideoList() {

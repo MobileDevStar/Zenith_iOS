@@ -203,7 +203,7 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="R1L-LB-WrJ" firstAttribute="leading" secondItem="4l9-xk-3u4" secondAttribute="leading" id="20r-zN-JYK"/>
                             <constraint firstItem="4l9-xk-3u4" firstAttribute="bottom" secondItem="rY8-Xg-dR0" secondAttribute="bottom" id="99C-Gd-ehT"/>
@@ -243,7 +243,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="wTy-Sf-5vc" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="OqZ-aq-p3Z"/>
                             <constraint firstItem="wTy-Sf-5vc" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="ch2-E7-snY"/>
