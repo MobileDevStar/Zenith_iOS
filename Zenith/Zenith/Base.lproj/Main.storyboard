@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="3Lv-sY-Mov">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -84,6 +84,9 @@
                                             <constraint firstAttribute="width" constant="130" id="mNx-bo-qCZ"/>
                                         </constraints>
                                         <state key="normal" backgroundImage="login.png"/>
+                                        <connections>
+                                            <action selector="onClickLogin:" destination="3Lv-sY-Mov" eventType="touchUpInside" id="4ut-e0-WeY"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lri-oT-rZ5">
                                         <rect key="frame" x="117" y="480" width="180" height="10"/>
@@ -239,33 +242,16 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vUN-79-Q13">
-                                <rect key="frame" x="147" y="702" width="120" height="30"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="120" id="Fna-y2-tw5"/>
-                                    <constraint firstAttribute="height" constant="30" id="OYC-74-2TG"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                                <connections>
-                                    <action selector="onLoginButtonClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="kFa-sd-lXe"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="wTy-Sf-5vc" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="OqZ-aq-p3Z"/>
-                            <constraint firstItem="vUN-79-Q13" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="TaK-5a-z1A"/>
                             <constraint firstItem="wTy-Sf-5vc" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="ch2-E7-snY"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="vUN-79-Q13" secondAttribute="bottom" constant="130" id="hpy-a6-dNl"/>
                             <constraint firstItem="wTy-Sf-5vc" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="qVI-cx-Jbz"/>
                             <constraint firstItem="wTy-Sf-5vc" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="sPK-mM-sTF"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <connections>
-                        <outlet property="m_butLogin" destination="vUN-79-Q13" id="Fvg-ez-CMX"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

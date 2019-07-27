@@ -11,17 +11,17 @@ import Foundation
 
 struct VideoInfo {
     
-    var subject: String!
-    var locked: Bool!
-    var loopVideo: String!
-    var swipeVideo: String!
+    var subject: String
+    var locked: Bool
+    var loopVideo: String
+    var swipeVideo: String
     
-    var rightLink: LinkInfo!
-    var leftLink: LinkInfo
+    var rightLink: LinkInfo
+    var leftLink: LinkInfo?
     
-    var state: Int!
+    var state: Int
     
-    init(subject: String, locked: Bool, loopVideo: String, swipeVideo: String, rightLink: LinkInfo, leftLink: LinkInfo, state: Int) {
+    init(subject: String, locked: Bool, loopVideo: String, swipeVideo: String, rightLink: LinkInfo, leftLink: LinkInfo?, state: Int) {
         
         self.subject = subject
         self.locked = locked

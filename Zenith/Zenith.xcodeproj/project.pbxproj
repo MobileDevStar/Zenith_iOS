@@ -61,6 +61,7 @@
 		A30E50CA22EB820400540A56 /* password.png in Resources */ = {isa = PBXBuildFile; fileRef = A30E50C222EB820400540A56 /* password.png */; };
 		A30E50CB22EB820400540A56 /* noaccount.png in Resources */ = {isa = PBXBuildFile; fileRef = A30E50C322EB820400540A56 /* noaccount.png */; };
 		A30E50CD22EBA42300540A56 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = A30E50CC22EBA42300540A56 /* back.png */; };
+		A30E50CF22EBD81900540A56 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A30E50CE22EBD81900540A56 /* GoogleService-Info.plist */; };
 		A31194D222E863120096FF81 /* LinkInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31194D122E863120096FF81 /* LinkInfo.swift */; };
 		A311EE9D22E641D300C924E5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A311EE9C22E641D300C924E5 /* AppDelegate.swift */; };
 		A311EE9F22E641D300C924E5 /* AuthController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A311EE9E22E641D300C924E5 /* AuthController.swift */; };
@@ -144,6 +145,7 @@
 		A30E50C222EB820400540A56 /* password.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = password.png; sourceTree = "<group>"; };
 		A30E50C322EB820400540A56 /* noaccount.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noaccount.png; sourceTree = "<group>"; };
 		A30E50CC22EBA42300540A56 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
+		A30E50CE22EBD81900540A56 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A31194D122E863120096FF81 /* LinkInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkInfo.swift; sourceTree = "<group>"; };
 		A311EE9922E641D300C924E5 /* Zenith.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Zenith.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A311EE9C22E641D300C924E5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -284,6 +286,7 @@
 		A311EE9B22E641D300C924E5 /* Zenith */ = {
 			isa = PBXGroup;
 			children = (
+				A30E50CE22EBD81900540A56 /* GoogleService-Info.plist */,
 				A31194D022E862FE0096FF81 /* doc */,
 				A394434622E80A0A009F5BD8 /* resource */,
 				A311EE9C22E641D300C924E5 /* AppDelegate.swift */,
@@ -470,6 +473,7 @@
 				A30E50AA22EB189200540A56 /* snapchat_prize_push_480_sound.mp4 in Resources */,
 				A30E50A822EB189200540A56 /* instagram_prize_loop_480_sound.mp4 in Resources */,
 				A30E50B722EB189200540A56 /* z_button_prize_gaia_indiegogo_480_sound.mp4 in Resources */,
+				A30E50CF22EBD81900540A56 /* GoogleService-Info.plist in Resources */,
 				A30E509B22EB189200540A56 /* z_button_prize_loop_480_sound.mp4 in Resources */,
 				A30E509A22EB189200540A56 /* twitter_prize_gaia_indiegogo_480_sound.mp4 in Resources */,
 				A30E509E22EB189200540A56 /* videos.json in Resources */,

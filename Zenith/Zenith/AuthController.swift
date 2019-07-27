@@ -43,6 +43,13 @@ class AuthController: UIViewController {
         
     }
     
+    @IBAction func onClickLogin(_ sender: Any) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let controller = storyboard.instantiateViewController(withIdentifier: "VideoControllerID") as! VideoController
+        controller.m_contribute = "1"
+        self.present(controller, animated: true, completion: nil)
+    }
+    
     @IBAction func onClickRegister(_ sender: Any) {
         m_vLogin.isHidden = true
         m_vSignup.isHidden = false
@@ -51,6 +58,20 @@ class AuthController: UIViewController {
     @IBAction func onClickBack(_ sender: Any) {
         m_vLogin.isHidden = false
         m_vSignup.isHidden = true
+    }
+    
+    public func pausePlayer() {
+        if player != nil {
+            stopPos = player.currentTime();
+            player.pause()
+        }
+    }
+    
+    public func resumePlayer() {
+        if player != nil {
+            player.seek(to: stopPos)
+            player.play()
+        }
     }
     
     private func playStartVideo() {

@@ -29,16 +29,49 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         print("Did Enter Background")
         
-        let rootViewController = self.window!.rootViewController as! VideoController
-        rootViewController.pausePlayer()
+        if var topController = UIApplication.shared.keyWindow?.rootViewController {
+            while let presentedViewController = topController.presentedViewController {
+                topController = presentedViewController
+            }
+            
+            if topController is AuthController {
+                print("auth background")
+                let authController = topController as! AuthController
+                authController.pausePlayer()
+            } else if topController is VideoController {
+                print("Video background")
+                let videoController = topController as! VideoController
+                videoController.pausePlayer()
+            }
+            // topController should now be your topmost view controller
+        }
+        
+        //let rootViewController = self.window!.rootViewController as! VideoController
+        //rootViewController.pausePlayer()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
         
         print("Will Enter Foreground")
-        let rootViewController = self.window!.rootViewController as! VideoController
-        rootViewController.resumePlayer()
+        if var topController = UIApplication.shared.keyWindow?.rootViewController {
+            while let presentedViewController = topController.presentedViewController {
+                topController = presentedViewController
+            }
+            
+            if topController is AuthController {
+                print("auth background")
+                let authController = topController as! AuthController
+                authController.resumePlayer()
+            } else if topController is VideoController {
+                print("Video background")
+                let videoController = topController as! VideoController
+                videoController.resumePlayer()
+            }
+            // topController should now be your topmost view controller
+        }
+       // let rootViewController = self.window!.rootViewController as! VideoController
+       // rootViewController.resumePlayer()
         
     }
 

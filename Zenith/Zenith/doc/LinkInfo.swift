@@ -10,9 +10,9 @@ import Foundation
 
 
 struct LinkInfo {
-    var name: String!
-    var video: String!
-    var link: String!
+    var name: String
+    var video: String
+    var link: String
     
     init(name: String, video: String, link: String) {
         self.name = name
