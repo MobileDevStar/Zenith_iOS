@@ -17,3 +17,8 @@ let SWIPE_STATE     = 4
 
 let RESERVED1_STATE = 5
 let RESERVED2_STATE = 6
+
+let USERNAME_KEY    = "username"
+let EMAIL_KEY       = "email"
+let PASSWORD_KEY    = "password"
+let CONTRIBUTE_KEY  = "contribute"

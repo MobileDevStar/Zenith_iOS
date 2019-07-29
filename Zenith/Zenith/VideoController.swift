@@ -21,7 +21,7 @@ class VideoController: UIViewController {
     private var m_videoIndex: Int = -1
     private var m_curVideoInfo: VideoInfo? = nil
     
-    public var  m_contribute: String! = "50"
+    public var  m_contribute: String! = "1"
     
     
     // private var tutorialVideoPlayer:AVPlayer!

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7B87FFCE34B555A0FFE7BDCC /* Pods_Zenith.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52843F577A71630C64BB78AF /* Pods_Zenith.framework */; };
 		A30E506022EB15B800540A56 /* VideoInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30E505F22EB15B800540A56 /* VideoInfo.swift */; };
 		A30E506222EB170000540A56 /* Define.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30E506122EB170000540A56 /* Define.swift */; };
 		A30E508E22EB189200540A56 /* snapchat_prize_loop_480_sound.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = A30E506322EB189000540A56 /* snapchat_prize_loop_480_sound.mp4 */; };
@@ -91,6 +92,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		14CEE9A9AB248EC7EFE5B4FB /* Pods-Zenith.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Zenith.debug.xcconfig"; path = "Target Support Files/Pods-Zenith/Pods-Zenith.debug.xcconfig"; sourceTree = "<group>"; };
+		2F245219D1EE2D5F9FE665EB /* Pods-Zenith.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Zenith.release.xcconfig"; path = "Target Support Files/Pods-Zenith/Pods-Zenith.release.xcconfig"; sourceTree = "<group>"; };
+		52843F577A71630C64BB78AF /* Pods_Zenith.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Zenith.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A30E505F22EB15B800540A56 /* VideoInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoInfo.swift; sourceTree = "<group>"; };
 		A30E506122EB170000540A56 /* Define.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Define.swift; sourceTree = "<group>"; };
 		A30E506322EB189000540A56 /* snapchat_prize_loop_480_sound.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = snapchat_prize_loop_480_sound.mp4; sourceTree = "<group>"; };
@@ -168,6 +172,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B87FFCE34B555A0FFE7BDCC /* Pods_Zenith.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -188,6 +193,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5E88216F7CC50C847DCE2AB6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				52843F577A71630C64BB78AF /* Pods_Zenith.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		A30E50BA22EB817D00540A56 /* videos */ = {
 			isa = PBXGroup;
 			children = (
@@ -270,6 +283,8 @@
 				A311EEB022E641D500C924E5 /* ZenithTests */,
 				A311EEBB22E641D500C924E5 /* ZenithUITests */,
 				A311EE9A22E641D300C924E5 /* Products */,
+				D00170930F6D6B37F0FF6207 /* Pods */,
+				5E88216F7CC50C847DCE2AB6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -328,6 +343,16 @@
 			path = resource;
 			sourceTree = "<group>";
 		};
+		D00170930F6D6B37F0FF6207 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				14CEE9A9AB248EC7EFE5B4FB /* Pods-Zenith.debug.xcconfig */,
+				2F245219D1EE2D5F9FE665EB /* Pods-Zenith.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -335,9 +360,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A311EEC122E641D500C924E5 /* Build configuration list for PBXNativeTarget "Zenith" */;
 			buildPhases = (
+				03C1EF6D16E1387D8C2ED1E3 /* [CP] Check Pods Manifest.lock */,
 				A311EE9522E641D300C924E5 /* Sources */,
 				A311EE9622E641D300C924E5 /* Frameworks */,
 				A311EE9722E641D300C924E5 /* Resources */,
+				42757E44C4635B4E52109FF0 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -506,6 +533,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		03C1EF6D16E1387D8C2ED1E3 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Zenith-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		42757E44C4635B4E52109FF0 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Zenith/Pods-Zenith-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Zenith/Pods-Zenith-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Zenith/Pods-Zenith-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		A311EE9522E641D300C924E5 /* Sources */ = {
@@ -690,6 +759,7 @@
 		};
 		A311EEC222E641D500C924E5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 14CEE9A9AB248EC7EFE5B4FB /* Pods-Zenith.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -711,6 +781,7 @@
 		};
 		A311EEC322E641D500C924E5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2F245219D1EE2D5F9FE665EB /* Pods-Zenith.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
