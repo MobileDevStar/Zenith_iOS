@@ -30,16 +30,21 @@ class AuthController: UIViewController, UITextFieldDelegate {
     private var player: AVPlayer!
     
     private var stopPos: CMTime!
+    private var m_blLoginScreen: Bool!
+    
+    private var activeField: UITextField?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        m_etSignupUsername.delegate = self
         m_etSignupPassword.delegate = self
         m_etSignupEmail.delegate = self
         
         m_etLoginEmail.delegate = self
         m_etLoginPassword.delegate = self
         
+        m_blLoginScreen = true
         stopPos = CMTime(seconds: 0, preferredTimescale: 1)
         
         playStartVideo()
@@ -57,6 +62,17 @@ class AuthController: UIViewController, UITextFieldDelegate {
         m_vVideo.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
         playerLayer.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
         
+    }
+    
+    // MARK: - View controller life cycle
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        registerForKeyboardNotifications()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        deregisterFromKeyboardNotifications()
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -82,6 +98,7 @@ class AuthController: UIViewController, UITextFieldDelegate {
             return
         }
         
+        self.showSpinner(onView: self.view)
         Auth.auth().signIn(withEmail: email, password: password) { [weak self] user, error in
             guard let strongSelf = self else { return }
             
@@ -91,6 +108,7 @@ class AuthController: UIViewController, UITextFieldDelegate {
             } else {
                 self!.displayToastMessage("Authentication failed")
             }
+            self?.removeSpinner()
         }
     }
     
@@ -105,11 +123,13 @@ class AuthController: UIViewController, UITextFieldDelegate {
     @IBAction func onClickRegister(_ sender: Any) {
         m_vLogin.isHidden = true
         m_vSignup.isHidden = false
+        m_blLoginScreen = false
     }
     
     @IBAction func onClickBack(_ sender: Any) {
         m_vLogin.isHidden = false
         m_vSignup.isHidden = true
+        m_blLoginScreen = true
     }
     
     @IBAction func onClickSignup(_ sender: Any) {
@@ -142,6 +162,7 @@ class AuthController: UIViewController, UITextFieldDelegate {
             return
         }
         
+        self.showSpinner(onView: self.view)
         Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
             if error == nil {
                 let changeRequest = authResult?.user.createProfileChangeRequest()
@@ -152,9 +173,11 @@ class AuthController: UIViewController, UITextFieldDelegate {
                     } else {
                         self.displayToastMessage("Creating username failed")
                     }
+                    self.removeSpinner()
                 }
             } else {
                 self.displayToastMessage("Authentication failed")
+                self.removeSpinner()
             }
         }
     }
@@ -169,6 +192,30 @@ class AuthController: UIViewController, UITextFieldDelegate {
         //UserDefaults.standard.set(contribute, forKey: CONTRIBUTE_KEY)
         
         httpRequestSend(username: username, email: email)
+    }
+    
+    @IBAction func onClickForgotPassword(_ sender: Any) {
+        let forgotPasswordAlert = UIAlertController(title: "Forgot password?", message: "Enter email address", preferredStyle: .alert)
+        forgotPasswordAlert.addTextField { (textField) in
+            textField.placeholder = "Enter email address"
+        }
+        forgotPasswordAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        forgotPasswordAlert.addAction(UIAlertAction(title: "Reset Password", style: .default, handler: { (action) in
+            let resetEmail = forgotPasswordAlert.textFields?.first?.text
+            Auth.auth().sendPasswordReset(withEmail: resetEmail!, completion: { (error) in
+                if error != nil{
+                    let resetFailedAlert = UIAlertController(title: "Reset Failed", message: "Error: \(String(describing: error?.localizedDescription))", preferredStyle: .alert)
+                    resetFailedAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                    self.present(resetFailedAlert, animated: true, completion: nil)
+                }else {
+                    let resetEmailSentAlert = UIAlertController(title: "Reset email sent successfully", message: "Check your email", preferredStyle: .alert)
+                    resetEmailSentAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                    self.present(resetEmailSentAlert, animated: true, completion: nil)
+                }
+            })
+        }))
+        //PRESENT ALERT
+        self.present(forgotPasswordAlert, animated: true, completion: nil)
     }
     
     private func updateUI(contribute: String) {
@@ -294,6 +341,7 @@ class AuthController: UIViewController, UITextFieldDelegate {
         let strURL = "https://api.indiegogo.com/2/campaigns/2526147/contributions.json"
         let params = ["api_token": "6293ec4d339638fcf3400178cb640c0c3de82c25ec8fbe3dfadb300c1c044b89"]
         
+        self.showSpinner(onView: self.view)
         Alamofire.request(strURL, parameters: params).validate().responseJSON { response in
             switch response.result {
             case .success:
@@ -335,8 +383,100 @@ class AuthController: UIViewController, UITextFieldDelegate {
                 let contribute: String = UserDefaults.standard.string(forKey: CONTRIBUTE_KEY) ?? "1"
                 self.updateUI(contribute: contribute)
             }
+            self.removeSpinner()
         }
         
+    }
+    
+    func registerForKeyboardNotifications()
+    {
+        //Adding notifies on keyboard appearing
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasShown(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeHidden(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+    }
+    
+    
+    func deregisterFromKeyboardNotifications()
+    {
+        //Removing notifies on keyboard appearing
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func keyboardWasShown(notification: NSNotification){
+        //Need to calculate keyboard exact size due to Apple suggestions
+        print("keyboard will be shown")
+        
+        
+        
+        var info = notification.userInfo!
+        let keyboardSize = (info[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.size
+        
+        var aRect : CGRect = self.view.frame
+        aRect.size.height -= keyboardSize!.height
+        
+        if let activeField = self.activeField {
+            let ptBottomRight: CGPoint = CGPoint(x: activeField.frame.origin.x + activeField.frame.width, y: activeField.frame.origin.y + activeField.frame.height)
+            print(ptBottomRight)
+            if (!aRect.contains(ptBottomRight)){
+                print(activeField.frame)
+                let keyboardY: CGFloat = self.view.frame.height - keyboardSize!.height
+                self.view.frame = CGRect(x: 0, y: -(ptBottomRight.y - keyboardY + activeField.frame.height), width: self.view.frame.width, height: self.view.frame.height)
+            }
+        }
+    }
+    
+    @objc func keyboardWillBeHidden(notification: NSNotification){
+        //Once keyboard disappears, restore original positions
+        print("keyboard will be hidden")
+        self.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+       /* var scrollView : UIScrollView = m_vLogin
+        if m_blLoginScreen == false {
+            scrollView = m_vSignup
+        }
+        
+        var info = notification.userInfo!
+        let keyboardSize = (info[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.size
+        let contentInsets : UIEdgeInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: -keyboardSize!.height, right: 0.0)
+        scrollView.contentInset = contentInsets
+        scrollView.scrollIndicatorInsets = contentInsets
+        self.view.endEditing(true)
+        scrollView.isScrollEnabled = false*/
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField){
+        activeField = textField
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField){
+        activeField = nil
+    }
+}
+
+var vSpinner : UIView?
+
+extension UIViewController {
+    func showSpinner(onView : UIView) {
+        let spinnerView = UIView.init(frame: onView.bounds)
+        spinnerView.backgroundColor = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
+        let ai = UIActivityIndicatorView.init(style: .whiteLarge)
+        ai.startAnimating()
+        ai.center = spinnerView.center
+        
+        DispatchQueue.main.async {
+            spinnerView.addSubview(ai)
+            onView.addSubview(spinnerView)
+        }
+        
+        vSpinner = spinnerView
+    }
+    
+    func removeSpinner() {
+        DispatchQueue.main.async {
+            vSpinner?.removeFromSuperview()
+            vSpinner = nil
+        }
     }
 }
 

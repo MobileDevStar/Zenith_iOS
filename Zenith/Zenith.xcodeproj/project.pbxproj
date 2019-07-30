@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -72,6 +72,8 @@
 		A311EEB222E641D500C924E5 /* ZenithTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A311EEB122E641D500C924E5 /* ZenithTests.swift */; };
 		A311EEBD22E641D500C924E5 /* ZenithUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A311EEBC22E641D500C924E5 /* ZenithUITests.swift */; };
 		A311EECB22E64D8300C924E5 /* VideoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A311EECA22E64D8300C924E5 /* VideoController.swift */; };
+		A313B4C322EFDBC60048D2A8 /* signup.png in Resources */ = {isa = PBXBuildFile; fileRef = A313B4C222EFDBC60048D2A8 /* signup.png */; };
+		A387F75622EF83CE0075B6C4 /* app_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = A387F75522EF83CE0075B6C4 /* app_logo.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -165,6 +167,8 @@
 		A311EEBC22E641D500C924E5 /* ZenithUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZenithUITests.swift; sourceTree = "<group>"; };
 		A311EEBE22E641D500C924E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A311EECA22E64D8300C924E5 /* VideoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoController.swift; sourceTree = "<group>"; };
+		A313B4C222EFDBC60048D2A8 /* signup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = signup.png; sourceTree = "<group>"; };
+		A387F75522EF83CE0075B6C4 /* app_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = app_logo.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -253,6 +257,8 @@
 		A30E50BB22EB81AF00540A56 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				A313B4C222EFDBC60048D2A8 /* signup.png */,
+				A387F75522EF83CE0075B6C4 /* app_logo.png */,
 				A30E50CC22EBA42300540A56 /* back.png */,
 				A30E50C122EB820400540A56 /* email.png */,
 				A30E50BD22EB820400540A56 /* forgot_password.png */,
@@ -349,7 +355,6 @@
 				14CEE9A9AB248EC7EFE5B4FB /* Pods-Zenith.debug.xcconfig */,
 				2F245219D1EE2D5F9FE665EB /* Pods-Zenith.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -482,6 +487,7 @@
 				A30E50A122EB189200540A56 /* lock_z_button_prize_swipe_to_lock_instagram_480_sound.mp4 in Resources */,
 				A30E50C922EB820400540A56 /* email.png in Resources */,
 				A30E508E22EB189200540A56 /* snapchat_prize_loop_480_sound.mp4 in Resources */,
+				A313B4C322EFDBC60048D2A8 /* signup.png in Resources */,
 				A30E50A222EB189200540A56 /* snapchat_prize_gaia_indiegogo_480_sound.mp4 in Resources */,
 				A30E50AC22EB189200540A56 /* story_prize_swipe_to_twitter_480_sound.mp4 in Resources */,
 				A30E50A922EB189200540A56 /* instagram_prize_swipe_to_lock_schematics_480_sound.mp4 in Resources */,
@@ -491,6 +497,7 @@
 				A30E50C522EB820400540A56 /* forgot_password.png in Resources */,
 				A30E509F22EB189200540A56 /* lock_story_prize_swipe_to_twitter_480_sound.mp4 in Resources */,
 				A30E509C22EB189200540A56 /* lock_schematics_prize_loop_480_sound.mp4 in Resources */,
+				A387F75622EF83CE0075B6C4 /* app_logo.png in Resources */,
 				A30E50CB22EB820400540A56 /* noaccount.png in Resources */,
 				A30E50A622EB189200540A56 /* schematics_prize_loop_480_sound.mp4 in Resources */,
 				A30E509822EB189200540A56 /* lock_schematics_prize_swipe_to_lock_story_480_sound.mp4 in Resources */,
@@ -771,7 +778,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.storeyfilms.Zenith;
+				PRODUCT_BUNDLE_IDENTIFIER = com.storeyfilms.zenith;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -793,7 +800,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.storeyfilms.Zenith;
+				PRODUCT_BUNDLE_IDENTIFIER = com.storeyfilms.zenith;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;

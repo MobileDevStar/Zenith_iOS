@@ -170,6 +170,35 @@ class VideoController: UIViewController {
                     break
                 }
             }
+        } else if m_curVideoInfo!.state == SWIPE_STATE {
+            if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+                switch swipeGesture.direction {
+                case UISwipeGestureRecognizer.Direction.right:
+                    if point.x < playerLayer.frame.width / 2 {
+                        m_videoIndex += 1
+                        if m_videoIndex >= m_videoList.count {
+                            m_videoIndex = 0
+                        }
+                        
+                        m_curVideoInfo = m_videoList[m_videoIndex]
+                        
+                        playSwipeVideo()
+                    }
+                    print("Swiped right")
+                case UISwipeGestureRecognizer.Direction.left:
+                    if point.x < playerLayer.frame.width / 2 {
+                        m_videoIndex -= 1
+                        if m_videoIndex < 0 {
+                            m_videoIndex = m_videoList.count - 1
+                        }
+                        playLoopVideo()
+                    }
+                    print("Swiped left")
+                    
+                default:
+                    break
+                }
+            }
         }
     }
     
