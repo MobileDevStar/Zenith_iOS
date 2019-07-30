@@ -339,7 +339,7 @@ class AuthController: UIViewController, UITextFieldDelegate {
     
     private func httpRequestSend(username: String, email: String) {
         let strURL = "https://api.indiegogo.com/2/campaigns/2526147/contributions.json"
-        let params = ["api_token": "6293ec4d339638fcf3400178cb640c0c3de82c25ec8fbe3dfadb300c1c044b89"]
+        let params = ["api_token": "6293ec4d339638fcf3400178cb640c0c3de82c25ec8fbe3dfadb300c1c044b89", "email": email]
         
         self.showSpinner(onView: self.view)
         Alamofire.request(strURL, parameters: params).validate().responseJSON { response in
@@ -353,13 +353,13 @@ class AuthController: UIViewController, UITextFieldDelegate {
                     for item in contList! {
                         print(item)
                         let jsonCont = item as? [String: Any]
-                        let logedName = jsonCont!["by"] as! String
-                        if logedName.caseInsensitiveCompare(username) == .orderedSame {
-                            let amount = jsonCont!["amount"] as! Int
-                            if amount > maxContribute {
-                                maxContribute = amount
-                            }
+                        
+                        let amount = jsonCont!["amount"] as! Int
+                        if amount > maxContribute {
+                            maxContribute = amount
                         }
+                        //let logedName = jsonCont!["by"] as! String
+                        //if logedName.caseInsensitiveCompare(username) == .orderedSame {}
                     }
                     
                     if maxContribute < 5 {

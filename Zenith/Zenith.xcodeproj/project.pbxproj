@@ -168,6 +168,7 @@
 		A311EEBE22E641D500C924E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A311EECA22E64D8300C924E5 /* VideoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoController.swift; sourceTree = "<group>"; };
 		A313B4C222EFDBC60048D2A8 /* signup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = signup.png; sourceTree = "<group>"; };
+		A313B4C422EFF6480048D2A8 /* Zenith.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Zenith.entitlements; sourceTree = "<group>"; };
 		A387F75522EF83CE0075B6C4 /* app_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = app_logo.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -307,6 +308,7 @@
 		A311EE9B22E641D300C924E5 /* Zenith */ = {
 			isa = PBXGroup;
 			children = (
+				A313B4C422EFF6480048D2A8 /* Zenith.entitlements */,
 				A30E50CE22EBD81900540A56 /* GoogleService-Info.plist */,
 				A31194D022E862FE0096FF81 /* doc */,
 				A394434622E80A0A009F5BD8 /* resource */,
@@ -428,6 +430,11 @@
 				TargetAttributes = {
 					A311EE9822E641D300C924E5 = {
 						CreatedOnToolsVersion = 10.2;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					A311EEAC22E641D500C924E5 = {
 						CreatedOnToolsVersion = 10.2;
@@ -769,6 +776,7 @@
 			baseConfigurationReference = 14CEE9A9AB248EC7EFE5B4FB /* Pods-Zenith.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Zenith/Zenith.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = VK833R6453;
@@ -791,6 +799,7 @@
 			baseConfigurationReference = 2F245219D1EE2D5F9FE665EB /* Pods-Zenith.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Zenith/Zenith.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = VK833R6453;
