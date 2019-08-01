@@ -73,6 +73,8 @@
 		A311EEBD22E641D500C924E5 /* ZenithUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A311EEBC22E641D500C924E5 /* ZenithUITests.swift */; };
 		A311EECB22E64D8300C924E5 /* VideoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A311EECA22E64D8300C924E5 /* VideoController.swift */; };
 		A313B4C322EFDBC60048D2A8 /* signup.png in Resources */ = {isa = PBXBuildFile; fileRef = A313B4C222EFDBC60048D2A8 /* signup.png */; };
+		A3145DA022F2EB5C0013E9EC /* unlock.png in Resources */ = {isa = PBXBuildFile; fileRef = A3145D9E22F2EB5C0013E9EC /* unlock.png */; };
+		A3145DA122F2EB5C0013E9EC /* donate.png in Resources */ = {isa = PBXBuildFile; fileRef = A3145D9F22F2EB5C0013E9EC /* donate.png */; };
 		A387F75622EF83CE0075B6C4 /* app_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = A387F75522EF83CE0075B6C4 /* app_logo.png */; };
 /* End PBXBuildFile section */
 
@@ -169,6 +171,8 @@
 		A311EECA22E64D8300C924E5 /* VideoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoController.swift; sourceTree = "<group>"; };
 		A313B4C222EFDBC60048D2A8 /* signup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = signup.png; sourceTree = "<group>"; };
 		A313B4C422EFF6480048D2A8 /* Zenith.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Zenith.entitlements; sourceTree = "<group>"; };
+		A3145D9E22F2EB5C0013E9EC /* unlock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unlock.png; sourceTree = "<group>"; };
+		A3145D9F22F2EB5C0013E9EC /* donate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = donate.png; sourceTree = "<group>"; };
 		A387F75522EF83CE0075B6C4 /* app_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = app_logo.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -258,6 +262,8 @@
 		A30E50BB22EB81AF00540A56 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				A3145D9F22F2EB5C0013E9EC /* donate.png */,
+				A3145D9E22F2EB5C0013E9EC /* unlock.png */,
 				A313B4C222EFDBC60048D2A8 /* signup.png */,
 				A387F75522EF83CE0075B6C4 /* app_logo.png */,
 				A30E50CC22EBA42300540A56 /* back.png */,
@@ -475,8 +481,10 @@
 				A30E50C622EB820400540A56 /* username.png in Resources */,
 				A30E50CA22EB820400540A56 /* password.png in Resources */,
 				A30E508F22EB189200540A56 /* schematics_prize_push_480_sound.mp4 in Resources */,
+				A3145DA122F2EB5C0013E9EC /* donate.png in Resources */,
 				A30E50AF22EB189200540A56 /* z_button_prize_swipe_to_instagram_480_sound.mp4 in Resources */,
 				A30E509D22EB189200540A56 /* lock_schematics_prize_gaia_indiegogo_480_sound.mp4 in Resources */,
+				A3145DA022F2EB5C0013E9EC /* unlock.png in Resources */,
 				A30E509722EB189200540A56 /* lock_instagram_prize_swipe_to_lock_schematics_480_sound.mp4 in Resources */,
 				A30E50C422EB820400540A56 /* forgot_username.png in Resources */,
 				A30E50A322EB189200540A56 /* z_button_prize_swipe_to_lock_instagram_480_sound.mp4 in Resources */,

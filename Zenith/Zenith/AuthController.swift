@@ -132,6 +132,18 @@ class AuthController: UIViewController, UITextFieldDelegate {
         m_blLoginScreen = true
     }
     
+    @IBAction func onClickDonate(_ sender: Any) {
+        guard let url = URL(string: "https://www.indiegogo.com/") else {
+            return //be safe
+        }
+        
+        if #available(iOS 10.0, *) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        } else {
+            UIApplication.shared.openURL(url)
+        }
+    }
+    
     @IBAction func onClickSignup(_ sender: Any) {
         let username: String = m_etSignupUsername.text ?? ""
         let email: String = m_etSignupEmail.text ?? ""

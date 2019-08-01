@@ -187,10 +187,10 @@ class VideoController: UIViewController {
                     print("Swiped right")
                 case UISwipeGestureRecognizer.Direction.left:
                     if point.x < playerLayer.frame.width / 2 {
-                        m_videoIndex -= 1
-                        if m_videoIndex < 0 {
-                            m_videoIndex = m_videoList.count - 1
-                        }
+//                        m_videoIndex -= 1
+//                        if m_videoIndex < 0 {
+//                            m_videoIndex = m_videoList.count - 1
+//                        }
                         playLoopVideo()
                     }
                     print("Swiped left")
