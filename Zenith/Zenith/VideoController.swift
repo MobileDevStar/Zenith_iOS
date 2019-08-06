@@ -471,6 +471,8 @@ class VideoController: UIViewController {
                     UIApplication.shared.openURL(webURL as URL)
                 }
             }
+        } else if m_curVideoInfo!.leftLink!.name.caseInsensitiveCompare("replay") == .orderedSame {
+            replayMainvideo()
         } else {
             guard let url = URL(string: m_curVideoInfo!.leftLink!.link) else {
                 return //be safe
@@ -499,6 +501,13 @@ class VideoController: UIViewController {
         } else {
             UIApplication.shared.openURL(url)
         }
+    }
+    
+    private func replayMainvideo() {
+        isFirst = true
+        m_videoIndex = -1
+        
+        replacePlayItem(res_id: "after_login_video_to_twitter_prize_480")
     }
     
     private func initVideoList() {

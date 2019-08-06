@@ -238,8 +238,8 @@ class AuthController: UIViewController, UITextFieldDelegate {
     private func updateUI(contribute: String) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let controller = storyboard.instantiateViewController(withIdentifier: "VideoControllerID") as! VideoController
-        //controller.m_contribute = contribute
-        controller.m_contribute = "50"
+        controller.m_contribute = contribute
+        //controller.m_contribute = "50"
         self.present(controller, animated: true, completion: nil)
     }
     
