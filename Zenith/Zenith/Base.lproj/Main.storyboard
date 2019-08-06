@@ -182,18 +182,11 @@
                                             <constraint firstAttribute="width" constant="145" id="sB8-QG-FxW"/>
                                         </constraints>
                                     </imageView>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="unlock.png" translatesAutoresizingMaskIntoConstraints="NO" id="Qz9-NZ-3p7">
-                                        <rect key="frame" x="15" y="481" width="290" height="20"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="20" id="cPr-60-2SV"/>
-                                            <constraint firstAttribute="width" constant="290" id="gva-NH-VtW"/>
-                                        </constraints>
-                                    </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2NH-At-crm">
-                                        <rect key="frame" x="86.5" y="509" width="147" height="15"/>
+                                        <rect key="frame" x="15" y="494" width="290" height="30"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="15" id="8dD-ZA-jSs"/>
-                                            <constraint firstAttribute="width" constant="147" id="bF8-zY-GRh"/>
+                                            <constraint firstAttribute="height" constant="30" id="8dD-ZA-jSs"/>
+                                            <constraint firstAttribute="width" constant="290" id="bF8-zY-GRh"/>
                                         </constraints>
                                         <state key="normal" backgroundImage="donate.png"/>
                                         <connections>
@@ -223,13 +216,11 @@
                                     <constraint firstItem="Smx-hA-r1q" firstAttribute="centerX" secondItem="vn2-eT-WEh" secondAttribute="centerX" id="Hga-Ov-cCE"/>
                                     <constraint firstItem="BFc-8n-tYn" firstAttribute="leading" secondItem="vn2-eT-WEh" secondAttribute="leading" constant="10" id="Ixa-vD-ehI"/>
                                     <constraint firstItem="NdM-vB-ynq" firstAttribute="top" secondItem="Smx-hA-r1q" secondAttribute="bottom" constant="8" id="JkX-Z2-iRV"/>
-                                    <constraint firstItem="2NH-At-crm" firstAttribute="top" secondItem="Qz9-NZ-3p7" secondAttribute="bottom" constant="8" id="MWC-KT-iiS"/>
                                     <constraint firstItem="Tbb-gd-sCU" firstAttribute="top" secondItem="OzE-6d-CAf" secondAttribute="bottom" constant="8" id="V5y-MW-1Kr"/>
                                     <constraint firstItem="hDr-Rr-z6g" firstAttribute="top" secondItem="Tbb-gd-sCU" secondAttribute="bottom" constant="16" id="Xdy-FU-K9A"/>
                                     <constraint firstItem="NdM-vB-ynq" firstAttribute="centerX" secondItem="vn2-eT-WEh" secondAttribute="centerX" id="aU0-v7-IAt"/>
                                     <constraint firstAttribute="bottom" secondItem="2NH-At-crm" secondAttribute="bottom" constant="24" id="cIc-wS-EmC"/>
                                     <constraint firstItem="p9r-xv-PpJ" firstAttribute="centerX" secondItem="vn2-eT-WEh" secondAttribute="centerX" id="dS4-cu-8fW"/>
-                                    <constraint firstItem="Qz9-NZ-3p7" firstAttribute="centerX" secondItem="vn2-eT-WEh" secondAttribute="centerX" id="dcz-Ej-9YE"/>
                                     <constraint firstItem="hDr-Rr-z6g" firstAttribute="centerX" secondItem="vn2-eT-WEh" secondAttribute="centerX" id="i3A-hh-qGD"/>
                                     <constraint firstItem="Tbb-gd-sCU" firstAttribute="centerX" secondItem="vn2-eT-WEh" secondAttribute="centerX" id="sNI-Z6-IHe"/>
                                     <constraint firstItem="OzE-6d-CAf" firstAttribute="top" secondItem="NdM-vB-ynq" secondAttribute="bottom" constant="14" id="v0O-cQ-3Xd"/>
@@ -284,10 +275,10 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="wTy-Sf-5vc" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="OqZ-aq-p3Z"/>
-                            <constraint firstItem="wTy-Sf-5vc" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="ch2-E7-snY"/>
-                            <constraint firstItem="wTy-Sf-5vc" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="qVI-cx-Jbz"/>
-                            <constraint firstItem="wTy-Sf-5vc" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="sPK-mM-sTF"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="wTy-Sf-5vc" secondAttribute="bottom" id="TFT-yB-aZq"/>
+                            <constraint firstItem="wTy-Sf-5vc" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Tmg-33-TsZ"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="wTy-Sf-5vc" secondAttribute="trailing" id="WSo-io-w4d"/>
+                            <constraint firstItem="wTy-Sf-5vc" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="dfQ-iT-G8b"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -296,10 +287,37 @@
             </objects>
             <point key="canvasLocation" x="130.43478260869566" y="135.9375"/>
         </scene>
+        <!--Test Controller-->
+        <scene sceneID="o0G-Ff-Hhy">
+            <objects>
+                <viewController id="kqJ-Cf-uZj" customClass="TestController" customModule="Zenith" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="lTu-Tr-TOC">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sHe-KD-Edf">
+                                <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="yB5-UM-NxQ" firstAttribute="trailing" secondItem="sHe-KD-Edf" secondAttribute="trailing" id="7BH-We-QVd"/>
+                            <constraint firstItem="sHe-KD-Edf" firstAttribute="top" secondItem="yB5-UM-NxQ" secondAttribute="top" id="rna-ss-5nc"/>
+                            <constraint firstItem="yB5-UM-NxQ" firstAttribute="bottom" secondItem="sHe-KD-Edf" secondAttribute="bottom" id="twT-xe-Psi"/>
+                            <constraint firstItem="sHe-KD-Edf" firstAttribute="leading" secondItem="yB5-UM-NxQ" secondAttribute="leading" id="z1x-16-14i"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="yB5-UM-NxQ"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bav-eb-vrO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="874" y="135"/>
+        </scene>
     </scenes>
     <resources>
         <image name="back.png" width="512" height="512"/>
-        <image name="donate.png" width="420" height="31.5"/>
+        <image name="donate.png" width="667" height="76.5"/>
         <image name="email.png" width="197" height="40.5"/>
         <image name="forgot_password.png" width="294.5" height="14.5"/>
         <image name="login.png" width="251.5" height="49.5"/>
@@ -307,7 +325,6 @@
         <image name="password.png" width="482" height="52.5"/>
         <image name="register.png" width="385" height="28.5"/>
         <image name="signup.png" width="346.5" height="68"/>
-        <image name="unlock.png" width="667" height="30"/>
         <image name="username.png" width="471.5" height="52.5"/>
     </resources>
 </document>

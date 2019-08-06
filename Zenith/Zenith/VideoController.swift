@@ -12,6 +12,7 @@ import AVKit
 class VideoController: UIViewController {
     
     private var playerLayer: AVPlayerLayer!
+    private var oldLayer: AVPlayerLayer!
     private var player: AVPlayer!
 
     private var isFirst: Bool!
@@ -47,6 +48,12 @@ class VideoController: UIViewController {
         let tapGes = UITapGestureRecognizer(target: self, action: #selector(self.respondToTapGesture))
         self.view.addGestureRecognizer(tapGes)
         
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(VideoController.appEnteredForeground(note:)),name:UIApplication.willEnterForegroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(VideoController.appEnteredBackground(note:)),name:UIApplication.didEnterBackgroundNotification, object: nil)
+        
+        //testAlert(msg:"did load")
+        
         playStartVideo()
     }
     
@@ -61,8 +68,16 @@ class VideoController: UIViewController {
         print(size)
         print(self.view.bounds)
         //playerLayer.frame = self.view.bounds
-        playerLayer.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        if playerLayer != nil {
+            playerLayer.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        }
 
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self, name:UIApplication.willEnterForegroundNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name:UIApplication.didEnterBackgroundNotification, object: nil)
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -70,30 +85,91 @@ class VideoController: UIViewController {
     }
     
     public func pausePlayer() {
+       /* if isFirst {
+            stopPos = player.currentTime();
+            player.pause()
+        } else {
+            oldLayer = playerLayer
+            player.pause()
+            playerLayer = nil
+            player = nil
+        }*/
+       
         if player != nil {
             if isFirst {
                 stopPos = player.currentTime();
                 player.pause()
             } else {
                 player.pause()
+                oldLayer = playerLayer
+                playerLayer = nil
             }
+            
         }
     }
     
     public func resumePlayer() {
+        //try AVAudioSession.sharedInstance().setCategory(., mode: .default, options: [])
+        
+        /*if isFirst {
+            //testAlert(msg:"first foreground")
+            player.seek(to: stopPos)
+            player.play()
+        } else {
+            if (m_videoIndex >= m_videoList.count || m_videoIndex < 0) {
+                return
+            }
+            
+            m_curVideoInfo = m_videoList[m_videoIndex]
+            if m_curVideoInfo == nil {
+                return
+            }
+            
+            m_curVideoInfo!.state = LOOP_STATE
+            
+            guard let path = Bundle.main.path(forResource: m_curVideoInfo!.loopVideo, ofType:"mp4") else {
+                debugPrint(m_curVideoInfo!.loopVideo + "not found")
+                return
+            }
+            
+            let videoURL = URL(fileURLWithPath: path)
+            let item = AVPlayerItem(url: videoURL)
+            
+            NotificationCenter.default.addObserver(self, selector: #selector(VideoController.completedVideoPlay(note:)),name:NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: item)
+            
+            player = AVPlayer(playerItem: item)
+            
+            playerLayer = AVPlayerLayer(player: player)
+            playerLayer.frame = self.view.bounds
+            //self.view.layer.removeFromSuperlayer()
+            self.view.layer.addSublayer(playerLayer)
+            
+            player.play()
+        }*/
+        
         if player != nil {
             if isFirst {
+                //testAlert(msg:"first foreground")
                 player.seek(to: stopPos)
                 player.play()
             } else {
-                playLoopVideo()
+                if let player = player{
+                    
+                    playerLayer = AVPlayerLayer(player: player)
+                    playerLayer.frame = self.view.bounds
+                    self.view.layer.replaceSublayer(oldLayer, with: playerLayer)
+                    
+                    if player.timeControlStatus == .paused{
+                        playLoopVideo()
+                    }
+                }
             }
         }
     }
     
     private func playStartVideo() {
-        guard let path = Bundle.main.path(forResource: "after_login_video_to_twitter_prize_480_sound", ofType:"mp4") else {
-            debugPrint("after_login_video_to_twitter_prize_480_sound.mp4 not found")
+        guard let path = Bundle.main.path(forResource: "after_login_video_to_twitter_prize_480", ofType:"mp4") else {
+            debugPrint("after_login_video_to_twitter_prize_480.mp4 not found")
             return
         }
         
@@ -103,12 +179,23 @@ class VideoController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(VideoController.completedVideoPlay(note:)),name:NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: item)
         
         player = AVPlayer(playerItem: item)
+        player.actionAtItemEnd = AVPlayer.ActionAtItemEnd.none
         
         playerLayer = AVPlayerLayer(player: player)
         playerLayer.frame = self.view.bounds
         print(self.view.bounds)
         self.view.layer.addSublayer(playerLayer)
         player.play()
+    }
+    
+    @objc private func appEnteredForeground(note: Notification) {
+        print("foreground")
+        resumePlayer()
+    }
+    
+    @objc private func appEnteredBackground(note: Notification) {
+        print("background")
+        pausePlayer()
     }
     
     @objc private func completedVideoPlay(note: Notification) {
@@ -144,59 +231,63 @@ class VideoController: UIViewController {
         print(playerLayer.bounds)
         print(playerLayer.frame)
         
-        if m_curVideoInfo == nil {
-            return
-        }
-        
-        if m_curVideoInfo!.state == LOOP_STATE {
-            if let swipeGesture = gesture as? UISwipeGestureRecognizer {
-                switch swipeGesture.direction {
-                case UISwipeGestureRecognizer.Direction.right:
-                    if point.x < playerLayer.frame.width / 2 {
-                        playSwipeVideo()
-                    }
-                    print("Swiped right")
-                case UISwipeGestureRecognizer.Direction.left:
-                    if point.x < playerLayer.frame.width / 2 {
-                        m_videoIndex -= 1
-                        if m_videoIndex < 0 {
-                            m_videoIndex = m_videoList.count - 1
-                        }
-                        playLoopVideo()
-                    }
-                    print("Swiped left")
-                    
-                default:
-                    break
-                }
+        if isFirst == true && m_videoIndex == -1 {
+            startMainVideo()
+        } else {
+            if m_curVideoInfo == nil {
+                return
             }
-        } else if m_curVideoInfo!.state == SWIPE_STATE {
-            if let swipeGesture = gesture as? UISwipeGestureRecognizer {
-                switch swipeGesture.direction {
-                case UISwipeGestureRecognizer.Direction.right:
-                    if point.x < playerLayer.frame.width / 2 {
-                        m_videoIndex += 1
-                        if m_videoIndex >= m_videoList.count {
-                            m_videoIndex = 0
+            
+            if m_curVideoInfo!.state == LOOP_STATE {
+                if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+                    switch swipeGesture.direction {
+                    case UISwipeGestureRecognizer.Direction.right:
+                        if point.x < playerLayer.frame.width / 2 {
+                            playSwipeVideo()
                         }
+                        print("Swiped right")
+                    case UISwipeGestureRecognizer.Direction.left:
+                        if point.x < playerLayer.frame.width / 2 {
+                            m_videoIndex -= 1
+                            if m_videoIndex < 0 {
+                                m_videoIndex = m_videoList.count - 1
+                            }
+                            playLoopVideo()
+                        }
+                        print("Swiped left")
                         
-                        m_curVideoInfo = m_videoList[m_videoIndex]
+                    default:
+                        break
+                    }
+                }
+            } else if m_curVideoInfo!.state == SWIPE_STATE {
+                if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+                    switch swipeGesture.direction {
+                    case UISwipeGestureRecognizer.Direction.right:
+                        if point.x < playerLayer.frame.width / 2 {
+                            m_videoIndex += 1
+                            if m_videoIndex >= m_videoList.count {
+                                m_videoIndex = 0
+                            }
+                            
+                            m_curVideoInfo = m_videoList[m_videoIndex]
+                            
+                            playSwipeVideo()
+                        }
+                        print("Swiped right")
+                    case UISwipeGestureRecognizer.Direction.left:
+                        if point.x < playerLayer.frame.width / 2 {
+                            //                        m_videoIndex -= 1
+                            //                        if m_videoIndex < 0 {
+                            //                            m_videoIndex = m_videoList.count - 1
+                            //                        }
+                            playLoopVideo()
+                        }
+                        print("Swiped left")
                         
-                        playSwipeVideo()
+                    default:
+                        break
                     }
-                    print("Swiped right")
-                case UISwipeGestureRecognizer.Direction.left:
-                    if point.x < playerLayer.frame.width / 2 {
-//                        m_videoIndex -= 1
-//                        if m_videoIndex < 0 {
-//                            m_videoIndex = m_videoList.count - 1
-//                        }
-                        playLoopVideo()
-                    }
-                    print("Swiped left")
-                    
-                default:
-                    break
                 }
             }
         }
@@ -214,7 +305,7 @@ class VideoController: UIViewController {
         print("Tap gestured")
         
         if isFirst == true && m_videoIndex == -1 {
-            startMainVideo()
+            //startMainVideo()
         } else {
             if m_curVideoInfo != nil {
                 if m_curVideoInfo!.state == LOOP_STATE {
@@ -318,6 +409,7 @@ class VideoController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(VideoController.completedVideoPlay(note:)),name:NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: item)
         
         player.replaceCurrentItem(with: item)
+        player.actionAtItemEnd = AVPlayer.ActionAtItemEnd.none
         player.play()
     }
     
@@ -465,6 +557,15 @@ class VideoController: UIViewController {
         } catch {
             print(error.localizedDescription)
         }
+    }
+    
+    private func testAlert(msg: String) {
+        let alert = UIAlertController(title: "test", message: msg, preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+        
+        self.present(alert, animated: true)
     }
     
 }

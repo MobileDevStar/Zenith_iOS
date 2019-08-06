@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 import Firebase
 
 @UIApplicationMain
@@ -19,6 +20,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         // Use Firebase library to configure APIs
         FirebaseApp.configure()
+        
+       /* let session = AVAudioSession.sharedInstance()
+        do {
+            // Configure the audio session for movie playback
+            try session.setCategory(AVAudioSession.Category.playback,
+                                    mode: AVAudioSession.Mode.moviePlayback,
+                                    options: [])
+        } catch let error as NSError {
+            print("Failed to set the audio session category and mode: \(error.localizedDescription)")
+        }*/
+
         return true
     }
 
@@ -31,7 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         print("Did Enter Background")
-        
+        /*
         if var topController = UIApplication.shared.keyWindow?.rootViewController {
             while let presentedViewController = topController.presentedViewController {
                 topController = presentedViewController
@@ -47,7 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 videoController.pausePlayer()
             }
             // topController should now be your topmost view controller
-        }
+        }*/
         
         //let rootViewController = self.window!.rootViewController as! VideoController
         //rootViewController.pausePlayer()
@@ -55,7 +67,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-        
+        /*
         print("Will Enter Foreground")
         if var topController = UIApplication.shared.keyWindow?.rootViewController {
             while let presentedViewController = topController.presentedViewController {
@@ -72,7 +84,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 videoController.resumePlayer()
             }
             // topController should now be your topmost view controller
-        }
+        }*/
        // let rootViewController = self.window!.rootViewController as! VideoController
        // rootViewController.resumePlayer()
         

@@ -47,6 +47,9 @@ class AuthController: UIViewController, UITextFieldDelegate {
         m_blLoginScreen = true
         stopPos = CMTime(seconds: 0, preferredTimescale: 1)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(AuthController.appEnteredForeground(note:)),name:UIApplication.willEnterForegroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(AuthController.appEnteredBackground(note:)),name:UIApplication.didEnterBackgroundNotification, object: nil)
+        
         playStartVideo()
     }
 
@@ -73,6 +76,8 @@ class AuthController: UIViewController, UITextFieldDelegate {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         deregisterFromKeyboardNotifications()
+        NotificationCenter.default.removeObserver(self, name:UIApplication.willEnterForegroundNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name:UIApplication.didEnterBackgroundNotification, object: nil)
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -133,7 +138,7 @@ class AuthController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func onClickDonate(_ sender: Any) {
-        guard let url = URL(string: "https://www.indiegogo.com/") else {
+        guard let url = URL(string: "https://www.indiegogo.com/project/preview/031584c9") else {
             return //be safe
         }
         
@@ -233,7 +238,8 @@ class AuthController: UIViewController, UITextFieldDelegate {
     private func updateUI(contribute: String) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let controller = storyboard.instantiateViewController(withIdentifier: "VideoControllerID") as! VideoController
-        controller.m_contribute = contribute
+        //controller.m_contribute = contribute
+        controller.m_contribute = "50"
         self.present(controller, animated: true, completion: nil)
     }
     
@@ -252,8 +258,8 @@ class AuthController: UIViewController, UITextFieldDelegate {
     
     public func pausePlayer() {
         if player != nil {
-            stopPos = player.currentTime();
             player.pause()
+            stopPos = player.currentTime()
         }
     }
     
@@ -265,8 +271,8 @@ class AuthController: UIViewController, UITextFieldDelegate {
     }
     
     private func playStartVideo() {
-        guard let path = Bundle.main.path(forResource: "title_login_480_sound", ofType:"mp4") else {
-            debugPrint("title_login_480_sound.mp4 not found")
+        guard let path = Bundle.main.path(forResource: "title_login_480", ofType:"mp4") else {
+            debugPrint("title_login_480.mp4 not found")
             return
         }
         
@@ -276,7 +282,7 @@ class AuthController: UIViewController, UITextFieldDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(AuthController.completedVideoPlay(note:)),name:NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: item)
         
         player = AVPlayer(playerItem: item)
-        
+        player.actionAtItemEnd = AVPlayer.ActionAtItemEnd.none
         playerLayer = AVPlayerLayer(player: player)
         m_vVideo.frame = self.view.bounds
         playerLayer.frame = self.view.bounds
@@ -284,6 +290,16 @@ class AuthController: UIViewController, UITextFieldDelegate {
         m_vVideo.layer.addSublayer(playerLayer);
         //self.view.layer.addSublayer(playerLayer)
         player.play()
+    }
+    
+    @objc private func appEnteredForeground(note: Notification) {
+        print("foreground")
+        resumePlayer()
+    }
+    
+    @objc private func appEnteredBackground(note: Notification) {
+        print("background")
+        pausePlayer()
     }
     
     @objc private func completedVideoPlay(note: Notification) {
