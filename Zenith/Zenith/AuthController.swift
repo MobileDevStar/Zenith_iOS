@@ -303,8 +303,9 @@ class AuthController: UIViewController, UITextFieldDelegate {
     }
     
     @objc private func completedVideoPlay(note: Notification) {
+        updateUI(contribute: "50")
         // Your code here
-        print("Title completed")
+        /*print("Title completed")
         
         let username: String = UserDefaults.standard.string(forKey: USERNAME_KEY) ?? ""
         let email: String = UserDefaults.standard.string(forKey: EMAIL_KEY) ?? ""
@@ -315,7 +316,7 @@ class AuthController: UIViewController, UITextFieldDelegate {
             m_vLogin.isHidden = false
         } else {
             httpRequestSend(username: username, email: email)
-        }
+        }*/
         
     }
     
