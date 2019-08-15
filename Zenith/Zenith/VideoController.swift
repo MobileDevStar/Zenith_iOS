@@ -109,82 +109,11 @@ class VideoController: UIViewController {
     }
     
     public func resumePlayer() {
-        //try AVAudioSession.sharedInstance().setCategory(., mode: .default, options: [])
         
-        /*if isFirst {
-            //testAlert(msg:"first foreground")
-            player.seek(to: stopPos)
-            player.play()
-        } else {
-            if (m_videoIndex >= m_videoList.count || m_videoIndex < 0) {
-                return
-            }
-            
-            m_curVideoInfo = m_videoList[m_videoIndex]
-            if m_curVideoInfo == nil {
-                return
-            }
-            
-            m_curVideoInfo!.state = LOOP_STATE
-            
-            guard let path = Bundle.main.path(forResource: m_curVideoInfo!.loopVideo, ofType:"mp4") else {
-                debugPrint(m_curVideoInfo!.loopVideo + "not found")
-                return
-            }
-            
-            let videoURL = URL(fileURLWithPath: path)
-            let item = AVPlayerItem(url: videoURL)
-            
-            NotificationCenter.default.addObserver(self, selector: #selector(VideoController.completedVideoPlay(note:)),name:NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: item)
-            
-            player = AVPlayer(playerItem: item)
-            
-            playerLayer = AVPlayerLayer(player: player)
-            playerLayer.frame = self.view.bounds
-            //self.view.layer.removeFromSuperlayer()
-            self.view.layer.addSublayer(playerLayer)
-            
-            player.play()
-        }*/
-        
-        if player != nil {
-            if isFirst {
-                //testAlert(msg:"first foreground")
-                player.seek(to: stopPos)
-                player.play()
-            } else {
-                if let player = player{
-                    
-                    playerLayer = AVPlayerLayer(player: player)
-                    playerLayer.frame = self.view.bounds
-                    self.view.layer.replaceSublayer(oldLayer, with: playerLayer)
-                    
-                    if player.timeControlStatus == .paused{
-                        playLoopVideo()
-                    }
-                }
-            }
-        }
     }
     
     private func playStartVideo() {
-        guard let path = Bundle.main.path(forResource: "after_login_video_to_twitter_prize_480", ofType:"mp4") else {
-            debugPrint("after_login_video_to_twitter_prize_480.mp4 not found")
-            return
-        }
         
-        let videoURL = URL(fileURLWithPath: path)
-        let item = AVPlayerItem(url: videoURL)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(VideoController.completedVideoPlay(note:)),name:NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: item)
-        
-        player = AVPlayer(playerItem: item)
-        player.actionAtItemEnd = AVPlayer.ActionAtItemEnd.none
-        
-        playerLayer = AVPlayerLayer(player: player)
-        playerLayer.frame = self.view.bounds
-        print(self.view.bounds)
-        self.view.layer.addSublayer(playerLayer)
         player.play()
     }
     
@@ -204,21 +133,7 @@ class VideoController: UIViewController {
         if isFirst == true && m_videoIndex == -1 {
             startMainVideo()
         } else {
-            if m_curVideoInfo!.state == LOOP_STATE {
-                player.seek(to: CMTime(seconds: 0, preferredTimescale: 1))
-                player.play()
-            } else if m_curVideoInfo!.state == LEFT_STATE {
-                startLeftLink()
-            } else if m_curVideoInfo!.state == RIGHT_STATE {
-                startRightLink()
-            } else if m_curVideoInfo!.state == SWIPE_STATE {
-                m_videoIndex += 1
-                if m_videoIndex >= m_videoList.count {
-                    m_videoIndex = 0
-                }
-                
-                playLoopVideo()
-            }
+        
         }
     }
     
@@ -238,58 +153,6 @@ class VideoController: UIViewController {
                 return
             }
             
-            if m_curVideoInfo!.state == LOOP_STATE {
-                if let swipeGesture = gesture as? UISwipeGestureRecognizer {
-                    switch swipeGesture.direction {
-                    case UISwipeGestureRecognizer.Direction.right:
-                        if point.x < playerLayer.frame.width / 2 {
-                            playSwipeVideo()
-                        }
-                        print("Swiped right")
-                    case UISwipeGestureRecognizer.Direction.left:
-                        if point.x < playerLayer.frame.width / 2 {
-                            m_videoIndex -= 1
-                            if m_videoIndex < 0 {
-                                m_videoIndex = m_videoList.count - 1
-                            }
-                            playLoopVideo()
-                        }
-                        print("Swiped left")
-                        
-                    default:
-                        break
-                    }
-                }
-            } else if m_curVideoInfo!.state == SWIPE_STATE {
-                if let swipeGesture = gesture as? UISwipeGestureRecognizer {
-                    switch swipeGesture.direction {
-                    case UISwipeGestureRecognizer.Direction.right:
-                        if point.x < playerLayer.frame.width / 2 {
-                            m_videoIndex += 1
-                            if m_videoIndex >= m_videoList.count {
-                                m_videoIndex = 0
-                            }
-                            
-                            m_curVideoInfo = m_videoList[m_videoIndex]
-                            
-                            playSwipeVideo()
-                        }
-                        print("Swiped right")
-                    case UISwipeGestureRecognizer.Direction.left:
-                        if point.x < playerLayer.frame.width / 2 {
-                            //                        m_videoIndex -= 1
-                            //                        if m_videoIndex < 0 {
-                            //                            m_videoIndex = m_videoList.count - 1
-                            //                        }
-                            playLoopVideo()
-                        }
-                        print("Swiped left")
-                        
-                    default:
-                        break
-                    }
-                }
-            }
         }
     }
     
@@ -307,38 +170,7 @@ class VideoController: UIViewController {
         if isFirst == true && m_videoIndex == -1 {
             //startMainVideo()
         } else {
-            if m_curVideoInfo != nil {
-                if m_curVideoInfo!.state == LOOP_STATE {
-                    if point.x < playerLayer.frame.width / 2 {
-                        playLeftVideo()
-                    } else {
-                        playRightVideo()
-                    }
-                } else if m_curVideoInfo!.state == SWIPE_STATE {
-                    let prevIndex = m_videoIndex
-                    let prevVideoInfo = m_curVideoInfo
-                    
-                    m_videoIndex += 1
-                    
-                    if m_videoIndex >= m_videoList.count {
-                        m_videoIndex = 0
-                    }
-                    
-                    m_curVideoInfo = m_videoList[m_videoIndex]
-                    
-                    if point.x < playerLayer.frame.width / 2 {
-                        if m_curVideoInfo!.locked == true || m_curVideoInfo!.leftLink == nil {
-                            m_videoIndex = prevIndex
-                            m_curVideoInfo = prevVideoInfo
-                        } else {
-                            playLeftVideo()
-                        }
-                    } else {
-                        playRightVideo()
-                    }
-                }
-
-            }
+            
         }
     }
     
@@ -350,18 +182,7 @@ class VideoController: UIViewController {
     }
     
     private func playLoopVideo() {
-        if (m_videoIndex >= m_videoList.count || m_videoIndex < 0) {
-            return
-        }
         
-        m_curVideoInfo = m_videoList[m_videoIndex]
-        if m_curVideoInfo == nil {
-            return
-        }
-        
-        m_curVideoInfo!.state = LOOP_STATE
-        
-        replacePlayItem(res_id: m_curVideoInfo!.loopVideo)
     }
     
     private func playLeftVideo() {
@@ -372,9 +193,7 @@ class VideoController: UIViewController {
             return
         }
         
-        m_curVideoInfo!.state = LEFT_STATE
         
-        replacePlayItem(res_id: m_curVideoInfo!.leftLink!.video)
     }
     
     private func playRightVideo() {
@@ -382,9 +201,7 @@ class VideoController: UIViewController {
             return
         }
         
-        m_curVideoInfo!.state = RIGHT_STATE
         
-        replacePlayItem(res_id: m_curVideoInfo!.rightLink.video)
     }
     
     private func playSwipeVideo() {
@@ -392,24 +209,11 @@ class VideoController: UIViewController {
             return
         }
         
-        m_curVideoInfo!.state = SWIPE_STATE
         
-        replacePlayItem(res_id: m_curVideoInfo!.swipeVideo)
     }
     
     private func replacePlayItem(res_id: String) {
-        guard let path = Bundle.main.path(forResource: res_id, ofType:"mp4") else {
-            debugPrint(m_curVideoInfo!.loopVideo + ".mp4 not found")
-            return
-        }
         
-        let videoURL = URL(fileURLWithPath: path)
-        let item = AVPlayerItem(url: videoURL)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(VideoController.completedVideoPlay(note:)),name:NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: item)
-        
-        player.replaceCurrentItem(with: item)
-        player.actionAtItemEnd = AVPlayer.ActionAtItemEnd.none
         player.play()
     }
     
@@ -422,68 +226,7 @@ class VideoController: UIViewController {
             return
         }
         
-        if m_curVideoInfo!.leftLink!.name.caseInsensitiveCompare("twitter") == .orderedSame {
-            let screenName =  m_curVideoInfo!.leftLink!.link
-            let appURL = NSURL(string: "twitter://user?screen_name=\(screenName)")!
-            let webURL = NSURL(string: "https://twitter.com/\(screenName)")!
-            
-            if UIApplication.shared.canOpenURL(appURL as URL) {
-                if #available(iOS 10.0, *) {
-                    UIApplication.shared.open(appURL as URL, options: [:], completionHandler: nil)
-                } else {
-                    UIApplication.shared.openURL(appURL as URL)
-                }
-            } else {
-                //redirect to safari because the user doesn't have Instagram
-                if #available(iOS 10.0, *) {
-                    UIApplication.shared.open(webURL as URL, options: [:], completionHandler: nil)
-                } else {
-                    UIApplication.shared.openURL(webURL as URL)
-                }
-            }
-        } else if m_curVideoInfo!.leftLink!.name.caseInsensitiveCompare("snapchat") == .orderedSame {
-            let screenName =  m_curVideoInfo!.leftLink!.link
-            let webURL = NSURL(string: "https://www.snapchat.com/add/\(screenName)")!
-            
-            if UIApplication.shared.canOpenURL(webURL as URL) {
-                if #available(iOS 10.0, *) {
-                    UIApplication.shared.open(webURL as URL, options: [:], completionHandler: nil)
-                } else {
-                    UIApplication.shared.openURL(webURL as URL)
-                }
-            }
-        } else if m_curVideoInfo!.leftLink!.name.caseInsensitiveCompare("instagram") == .orderedSame {
-            let screenName =  m_curVideoInfo!.leftLink!.link
-            let appURL = NSURL(string: "instagram://user?username=\(screenName)")!
-            let webURL = NSURL(string: "https://instagram.com/\(screenName)")!
-            
-            if UIApplication.shared.canOpenURL(appURL as URL) {
-                if #available(iOS 10.0, *) {
-                    UIApplication.shared.open(appURL as URL, options: [:], completionHandler: nil)
-                } else {
-                    UIApplication.shared.openURL(appURL as URL)
-                }
-            } else {
-                //redirect to safari because the user doesn't have Instagram
-                if #available(iOS 10.0, *) {
-                    UIApplication.shared.open(webURL as URL, options: [:], completionHandler: nil)
-                } else {
-                    UIApplication.shared.openURL(webURL as URL)
-                }
-            }
-        } else if m_curVideoInfo!.leftLink!.name.caseInsensitiveCompare("replay") == .orderedSame {
-            replayMainvideo()
-        } else {
-            guard let url = URL(string: m_curVideoInfo!.leftLink!.link) else {
-                return //be safe
-            }
-            
-            if #available(iOS 10.0, *) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            } else {
-                UIApplication.shared.openURL(url)
-            }
-        }
+        
 
     }
     
@@ -496,11 +239,7 @@ class VideoController: UIViewController {
             return //be safe
         }
         
-        if #available(iOS 10.0, *) {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        } else {
-            UIApplication.shared.openURL(url)
-        }
+        
     }
     
     private func replayMainvideo() {
@@ -512,57 +251,7 @@ class VideoController: UIViewController {
     
     private func initVideoList() {
         do {
-            if let file = Bundle.main.url(forResource: "videos", withExtension: "json") {
-                let data = try Data(contentsOf: file)
-                let json = try JSONSerialization.jsonObject(with: data, options: [])
-                if let object = json as? [String: Any] {
-                    // json is a dictionary
-                    let videos = object["videos"] as? [String: Any]
-                    let vList = videos?[m_contribute] as? [Any]
-                    for item in vList! {
-                        let jsonVideo = item as? [String: Any]
-                        let subject = jsonVideo!["subject"] as! String
-                        let locked = jsonVideo!["locked"] as! Bool
-                        let loopVideo = jsonVideo!["loopVideo"] as! String
-                        let swipeVideo = jsonVideo!["swipeVideo"] as! String
-                        let state: Int = LOOP_STATE
-                        
-                        var leftLink: LinkInfo? = nil
-                        if locked == false {
-                            let leftItem = jsonVideo!["leftLink"] as! [String: Any]
-                            
-                            let leftLinkName = leftItem["name"] as! String
-                            let leftVideo = leftItem["video"] as! String
-                            let leftLinkPath = leftItem["link"] as! String
-                            
-                            leftLink = LinkInfo(name: leftLinkName,video: leftVideo, link: leftLinkPath)
-                        }
-                        
-                        let rightItem = jsonVideo!["rightLink"] as! [String: Any]
-                        
-                        let rightLinkName = rightItem["name"] as! String
-                        let rightVideo = rightItem["video"] as! String
-                        let rightLinkPath = rightItem["link"] as! String
-                        
-                        let rightLink = LinkInfo(name: rightLinkName,video: rightVideo, link: rightLinkPath)
-                        
-                        let videoInfo = VideoInfo(subject: subject, locked: locked, loopVideo: loopVideo, swipeVideo: swipeVideo, rightLink: rightLink, leftLink: leftLink, state: state)
-                        
-                        m_videoList.append(videoInfo)
-                        print(subject)
-                        print(videoInfo.subject)
-                        print(videoInfo)
-
-                    }
-                } else if let object = json as? [Any] {
-                    // json is an array
-                    print(object)
-                } else {
-                    print("JSON is invalid")
-                }
-            } else {
-                print("no file")
-            }
+            
         } catch {
             print(error.localizedDescription)
         }
